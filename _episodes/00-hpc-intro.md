@@ -1,25 +1,33 @@
 ---
-title: "High Performance Computing Introduction"
-teaching: 5
+title: "Introduction to High Performance Compute Clusters"
+teaching: 10
 exercises: 0
 questions:
-- "Why would I be interested in High Performance Computing (HPC)?"
-- "What can I expect to learn from this course?"
+- "Why should I be using a High Performance Cluster (HPC) for my research?"
+- "Don't I need to know how to code to use an HPC?"
 objectives:
-- "Be able to describe what an HPC system is"
-- "Explain the difference between a cloud-based and a cluster-based system"
+- "Understand how HPC can improve research efficiency."
+- "Understand the 'barrier to entry' is lower than you'd think."
 keypoints:
-- "High Performance Computing (HPC) typically involves connecting to very large computing systems elsewhere in the world."
-- "These other systems can be used to do work that would either be impossible or much slower or smaller systems."
-- "Using these systems usually requires submitting tasks, often referred to as \"jobs\" to a program called a scheduler that determines when your turn on the system is."
-- "The standard method of interacting with such systems is via a linux-based command line interface called \"The Shell\"."
+- "High Performance Computing (HPC) typically involves connecting remotely to a **cluster** of computers."
+- "HPC's can be used to do work that would either be impossible or much slower in a Desktop environment."
+- "Typical HPC workflows involve submitting \"jobs\" to a scheduler which queues/priortises the \"jobs\" of all users."
+- "The standard method of interacting with HPC's is via a Linux-based Command Line Interface called \"The Shell\"."
 ---
 
-### What is High Performance Computing (HPC)?
+### What is a High Performance Compute Cluster (HPC)?
 
-High Performance Computing (HPC) is the name given to the use of computers with capabilities well beyond the scope of standard desktop computers.   The computers that qualify as HPC systems are typically seen as being more powerful than other systems, usually because they have more central processing units (CPUs), CPUs that operate at higher speeds, more memory, more storage, and faster connections with other computer systems.  HPC systems are used when the resources of more standard computers, such as most dektops and laptops, are not enough to provide results in a timely fashion, if at all.
+High Performance Computing (HPC) is the name given to the use of computers with capabilities 
+well beyond the scope of standard desktop computers.   
+The computers that qualify as HPC systems are typically seen as being more powerful than other systems, 
+usually because they have more central processing units (CPUs), 
+CPUs that operate at higher speeds, more memory, more storage, and faster connections with other computer systems.  
+HPC systems are used when the resources of more standard computers, such as most dektops and laptops, 
+are not enough to provide results in a timely fashion, if at all.
 
-Using HPC systems often involves the use of a shell through a command line interface (CLI) and either specialized software or programming techniques.  The shell is a program with the special role of having the job of running other programs rather than doing calculations or similar tasks itself.  
+Using HPC systems often involves the use of a shell through a command line interface (CLI) 
+and either specialized software or programming techniques.  
+The shell is a program with the special role of having the job of running other programs rather than doing calculations or similar tasks itself.  
 What the user types goes into the shell,
 which then figures out what commands to run and orders the computer to execute them.
 (Note that the shell is called "the shell" because it encloses the operating system
@@ -34,7 +42,8 @@ the only way to interact with early computers was to rewire them.
 From the 1950s to the 1980s 
 most people used line printers.
 These devices only allowed input and output of the letters, numbers, and punctuation found on a standard keyboard,
-so programming languages and software interfaces had to be designed around that constraint and text-based interfaces were the way to do this.  Typing-based interfaces are often called a
+so programming languages and software interfaces had to be designed around that constraint and text-based interfaces were the way to do this.  
+Typing-based interfaces are often called a
 **command-line interface**, or CLI,
 to distinguish it from a
 **graphical user interface**, or GUI,
@@ -48,7 +57,7 @@ The user then types another command,
 and so on until the user logs off.
 
 
-### Why HPC?
+### Why use an HPC?
 
 Learning to use Bash or any other shell
 sometimes feels more like programming than like using a mouse.
@@ -123,13 +132,3 @@ Suppose that each file takes about a minute to analyze on her desktop system and
 Shifting this work to an HPC system will not only stand to speed up the processig of these files but the processing will importantly allow Nelle to continue to use her own computer for other work.
 
 [Example modified from [clemsonciti](https://github.com/clemsonciti/hpc-workshop/).]
-
-## Cloud vs Cluster
-
-Traditionally "HPC" is used to refer to computer systems known as "clusters" because they are groups of computer cores (or central processing units (CPUs)) and resources like memory and storage joined together by special networks that allow these computers to work together at very high speeds.  Such machines often have tens of thousands---or even hundreds of thousands---of cores.
-
-Clusters often share their resources among a large number of users through a piece of software called a scheduler.  When people want to use such a cluster they have to tell the scheduler that they want to do some work and what that work looks like in terms of the number of cores and the amount of memory that they plan to use.  The scheduler then gives them resources when they are available and when their "priority" (a score or ranking that is increased by how valuable their work is seen as being and decreased as they use resources) is high enough.
-
-Another type of computing resource that is catching attention and that is sometimes included in the term "HPC" is "the cloud".  When understood most broadly      using the cloud amounts to using a computer that is elsewhere and on this understanding most of the Internet and the clusters mentioned earlier are part of the cloud.  Often a narrower understanding is meant though...  
-
-Final point is that we're really focused on cluster-based computing in this course.
