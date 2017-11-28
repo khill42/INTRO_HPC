@@ -1,12 +1,14 @@
 ---
-title: "Introduction to High Performance Compute Clusters"
+title: "Introduction to High Performance Computing"
 teaching: 10
 exercises: 0
 questions:
-- "Why should I be using a High Performance Cluster (HPC) for my research?"
-- "Don't I need to know how to code to use an HPC?"
+- "What is High Performance Computing?"
+- "Why should I be using High Performance Computing for my research?"
+- "Don't I need to know how to program to use High Performance Computing?"
 objectives:
-- "Understand how HPC can improve research efficiency."
+- "Understand what an HPC is."
+- "Understand how HPC can improve your research efficiency."
 - "Understand the 'barrier to entry' is lower than you'd think."
 keypoints:
 - "High Performance Computing (HPC) typically involves connecting remotely to a **cluster** of computers."
@@ -17,13 +19,8 @@ keypoints:
 
 ### What is a High Performance Compute Cluster (HPC)?
 
-High Performance Computing (HPC) is the name given to the use of computers with capabilities 
-well beyond the scope of standard desktop computers.   
-The computers that qualify as HPC systems are typically seen as being more powerful than other systems, 
-usually because they have more central processing units (CPUs), 
-CPUs that operate at higher speeds, more memory, more storage, and faster connections with other computer systems.  
-HPC systems are used when the resources of more standard computers, such as most dektops and laptops, 
-are not enough to provide results in a timely fashion, if at all.
+High Performance Computing (HPC) is the name given to the use of computers with capabilities well beyond the scope of standard desktop computers. The computers that qualify as HPC systems are typically seen as being more powerful than other systems, 
+usually because they have more central processing units (CPUs), CPUs that operate at higher speeds, more memory, more storage, and faster connections with other computer systems. HPC systems are used when the resources of more standard computers, such as most dektops and laptops, are not enough to provide results in a timely fashion, if at all.
 
 Using HPC systems often involves the use of a shell through a command line interface (CLI) 
 and either specialized software or programming techniques.  
@@ -131,4 +128,3 @@ Suppose that each file takes about a minute to analyze on her desktop system and
 
 Shifting this work to an HPC system will not only stand to speed up the processig of these files but the processing will importantly allow Nelle to continue to use her own computer for other work.
 
-[Example modified from [clemsonciti](https://github.com/clemsonciti/hpc-workshop/).]

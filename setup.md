@@ -4,35 +4,36 @@ title: Setup
 permalink: /setup/
 ---
 
-There are several pieces of software you will wish to install before the workshop.
-Though installation help will be provided at the workshop, 
-we recommend that these tools are installed (or at least downloaded) beforehand.
-Anaconda Python is a very large download.
+## HPC Access
+
+You will need to have an HPC user account before the workshop begins.  JCU staff and students can apply for an account online [HERE](https://plone.jcu.edu.au/hpc/getting-an-account.html). 
+Please ensure you have registered for your account **ATLEAST 3 DAYS PRIOR** to the commencement of the workshop.
 
 ## SSH
 
-All students should have an SSH client installed.
-SSH is a tool that allows us to connect to and use a remote computer as our own.
-Please follow the directions below to install an SSH client for your system.
+In order to connect to a remote computer, such as an HPC cluster.  Students will need an 'SSH' client on their computer;
+check for your operating system below for instructions to download an SSH Client of your own.
 
 **Windows**
 
-Install MobaXterm from [http://mobaxterm.mobatek.net](http://mobaxterm.mobatek.net).
-You will want to get the Home edition (Installer edition).
+Install [PuTTY Client](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html), ensure you pick the appropriate 32 or 64 bit edition.
 
 **macOS**
 
-Although macOS comes with SSH pre-installed, 
-you will likely want to install [XQuartz](www.xquartz.org) to enable graphical support.
-Note that you must restart your computer to complete the installation.
+OSx comes pre-isntalled with an SSH Client, access it via your terminal.
 
 **Linux**
 
-Linux users do not need to install anything, you should be set!
+Linux OS comes pre-isntalled with an SSH Client, access it via your terminal.
 
-## Python
+## STFP
 
-If your workshop will be covering Python,
-please install Anaconda from [https://www.continuum.io/downloads](https://www.continuum.io/downloads).
-Anaconda is a free version of Python that comes bundled with all of its most useful tools.
-Even better, it includes several significant performance improvements over "vanilla" Python.
+GUI tools to make transferring files easier.
+
+**All OS**
+
+[FileZilla](https://filezilla-project.org/) is a Graphical Program used to transfer files between your computer and a remote HPC setup.
+Filezilla can be used on Windows, OSx, and Linux.
+
+
+

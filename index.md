@@ -3,21 +3,21 @@ layout: lesson
 root: .
 ---
 
-This workshop is an introduction to using high-performance computing systems effectively.
-We obviously can't cover every case or give an exhaustive course on parallel programming in just two days' of teaching time.
-Instead, this workshop is intended to give students a good introduction and overview of the tools available and how to use them effectively.
+Advanced computing skills and the capacity to analyse large datasets are key for many researchers across a variety of disciplines.  
+This workshop is designed to enable researchers to use High Performance Computing **(HPC)** systems to improve their research efficiency. 
 
 By the end of this workshop, students will know how to:
 
-* Use the UNIX command line to operate a computer, connect to a cluster, and write simple shell scripts.
-* Submit and manage jobs on a cluster using a scheduler, transfer files, and use software through environment modules.
-* Learn the fundamentals of programming in Python or Chapel.
-* Understand parallel programming strategies, and write basic parallel code in Python or Chapel. 
-
+* Use the UNIX command line to connect to a remote computer.
+* Navigate and interact with files using the UNIX command line.
+* Work interactively with programs on an HPC setup.
+* Execute scripted workflows on an HPC.
+* Submit and manage jobs to an HPC using a job scheduler.
 
 > ## Prerequisites
 >
-> There are no real prerequisites for this lesson, 
-> but prior programming and/or command line experience will be helpful.
+> **This workshop is designed for those with NO PRIOR EXPERIENCE.**  
+> **Students will need their own laptop computer.**  
+> **Students will need access to their institutional HPC.**
 {: .prereq}
 
