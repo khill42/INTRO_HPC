@@ -88,37 +88,17 @@ That was pretty awesome, but I really disdain having to type my password in all 
 
 These commands should be run on your Terminal, not the HPC!  Let's start by using the `ssh-keygen` command to make our key pair.  But first, let's make sure we're in the right directory.
 
-~~~
-cd .ssh
-~~~
-{: .bash}
-
-If you see the following error:
-~~~
-cd .ssh
-bash: cd: .ssh: No such file or directory
-~~~
-{: .bash}
-
-You'll need to first create your .ssh directory, and then move into it:
-
-~~~
-mkdir .ssh
-cd .ssh
-~~~
-{: .bash}
-
 Now let's create our keys using the `ssh-keygen` command:
 
 ~~~
-ssh-keygen -t rsa -b 1024 -f HPC
+ssh-keygen -t rsa -b 1024 -f ~/.ssh/HPC
 ~~~
 {: .bash}
 
 You'll now be prompted to input a password for your key, leave it blank by pressing ENTER.
 
 ~~~
-ssh-keygen -t rsa -b 1024 -f HPC
+ssh-keygen -t rsa -b 1024 -f ~/.ssh/HPC
 Generating public/private rsa key pair.
 Enter passphrase (empty for no passphrase): 
 ~~~
@@ -127,7 +107,7 @@ Enter passphrase (empty for no passphrase):
 Confirm your password as blank by pressing ENTER again
 
 ~~~
-ssh-keygen -t rsa -b 1024 -f HPC
+ssh-keygen -t rsa -b 1024 -f ~/.ssh/HPC
 Generating public/private rsa key pair.
 Enter passphrase (empty for no passphrase): 
 Enter same passphrase again: 
@@ -137,7 +117,7 @@ Enter same passphrase again:
 You've now created a pair of keys!  The private key will be called HPC, the public key will be called HPC.pub. They should be located in your .ssh directory.
 
 ~~~
-ssh-keygen -t rsa -b 1024 -f HPC
+ssh-keygen -t rsa -b 1024 -f ~/.ssh/HPC
 Generating public/private rsa key pair.
 Enter passphrase (empty for no passphrase): 
 Enter same passphrase again: 
@@ -160,27 +140,21 @@ The key's randomart image is:
 ~~~
 {: .bash}
 
-### Set Your Authorised Keys
+### Move Your Key to the HPC
 
-In order to use your keys to connect the HPC, we first need to copy the **public** key to the HPC.  To do this let's use the `scp` command, this command needs to be run from the your computer as well, not the HPC.
-
-~~~
-scp HPC.pub jcXXYYYY@zodiac.hpc.jcu.edu.au:~/.ssh/
-~~~
-{: .bash}
-
-We've succesfully (and securely) moved our public key to the HPC, now let's add it to the 'authorised_keys' file.  These commands should be run on the HPC from inside the .ssh directory.
+In order to use your keys to connect to the HPC, you'll need to first place it in a special file in your HPC home account called \"authorized_keys\". The easiest way to do this is simply with copy and paste.  Locate the **public** key with your GUI finder, open it with a text editor, and copy the entire contents. Return now to your Terminal which is logged-in to the HPC and input the following command. 
 
 ~~~
-cd .ssh
-cat HPC.pub > authorised_keys
+echo "[Paste Contents of Key Here]" >> ~/.ssh/authorized_keys
 ~~~
 {: .bash}
+
+We've succesfully (and securely) moved our public key to the HPC, now let's add it to the 'authorized_keys' file.  
 
 Once this is done, logout of the HPC.  Then in your computer's Terminal enter the following command:
 
 ~~~
-ssh jc152199@zodiac.hpc.jcu.edu.au -i .ssh/HPC
+ssh jcXXYYYY@zodiac.hpc.jcu.edu.au -i ~/.ssh/HPC
 ~~~
 {: .bash}
 
