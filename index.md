@@ -14,6 +14,8 @@ By the end of this workshop, students will know how to:
 * Execute scripted workflows on an HPC.
 * Submit and manage jobs to an HPC using a job scheduler.
 
+<span style="color:white">blankline</span>
+
 > ## Prerequisites
 >
 > **This workshop is designed for those with NO PRIOR EXPERIENCE.**  
