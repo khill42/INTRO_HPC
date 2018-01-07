@@ -431,7 +431,7 @@ which doesn't exist.
 > to refer to the input term(s) given to a command.
 > Consider the example below:
 > ```
-> [remote]$ ls -lh Documents
+> [remote]$ ls -lh /plots
 > ```
 > {: .bash}
 > `ls` is the command, `-lh` are the flags (also called options),
