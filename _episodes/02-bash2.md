@@ -3,21 +3,36 @@ title: "Basic UNIX Commands"
 teaching: 0
 exercises: 0
 questions:
-- "How do I move files on and off the remote system?"
-- "How do I control who has access to my files?"
-- "How do I write and run a simple script?"
+- "What is the syntax of UNIX command?"
+- "How do I navigate the file system?"
+- "How do I transfer files to HPC?"
+- "How do I interact with files on the HPC?"
 objectives:
+- "Be able to construct basic UNIX commands."
 - "Be able to move files to and from the remote system."
-- "Be able to read and change file permissions."
-- "Be able to write and edit simple scripts"
+- "Be able to traverse the HPC file system."
+- "Be able to interact with your files."
 keypoints:
 - "`scp` (The Secure Copy Program) is a standard way to securely transfer data to remote HPC systems."
 - "File ownership is an important component of a shared computing space and can be controlled with `chgrp` and `chown`."
 - "Scripts are *mostly* just lists of commands from the command line in the order they are to be performed."
 ---
+> ## Key Shortcuts
+> Home Directory -- the tilda symbol "~" represents your home directory, /homeN/XX/jcXXYYYY/  
+> Current Directory -- a single full-stop "." represents your current working directory  
+> Parent Directory -- a double full-stop ".." represents the parent of your current working directory  
+> Up / Down Arrows -- can be used to scroll through previous commands, so you don't have to retype them
+> SetoVI  
+> Tab Completion -- the UNIX shell will attempt to autocomplete file names and program names when you hit the TAB key  
+> !! Previous   
+> / -- on it's own a single "/" means the root directory, otherwise it indicates a new directory.  
+> sourcing   
+> env  
+> sudo  
+{: .error}
+{: .callout}
 
-
-## Terminal Basics
+## Basic UNIX Syntax
 
 Type the command `whoami`,
 then press the ENTER key to send the command to the shell.
