@@ -11,7 +11,11 @@ title: "Introduction to High Performance Computing"
 # Contact.  This *must* include the protocol: if it's an email
 # address, it must look like "mailto:lessons@software-carpentry.org",
 # or if it's a URL, "https://gitter.im/username/ProjectName".
-contact: "mailto:lessons@software-carpentry.org"
+contact: "mailto:collin.storlie@jcu.edu.au"
+
+# Which institution is this course for
+
+institution: "JCU"
 
 #------------------------------------------------------------
 # Generic settings (should not need to change).

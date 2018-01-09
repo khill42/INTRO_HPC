@@ -3,21 +3,44 @@ title: "Basic UNIX Commands"
 teaching: 0
 exercises: 0
 questions:
-- "How do I move files on and off the remote system?"
-- "How do I control who has access to my files?"
-- "How do I write and run a simple script?"
+- "What is the syntax of UNIX commands?"
+- "How do I navigate the file system?"
+- "How do I transfer files to HPC?"
+- "How do I interact with files on the HPC?"
 objectives:
+- "Be able to construct basic UNIX commands."
 - "Be able to move files to and from the remote system."
-- "Be able to read and change file permissions."
-- "Be able to write and edit simple scripts"
+- "Be able to traverse the HPC file system."
+- "Be able to interact with your files."
 keypoints:
 - "`scp` (The Secure Copy Program) is a standard way to securely transfer data to remote HPC systems."
 - "File ownership is an important component of a shared computing space and can be controlled with `chgrp` and `chown`."
 - "Scripts are *mostly* just lists of commands from the command line in the order they are to be performed."
 ---
 
+Since we interact the UNIX shell via typing commands, there a few key shortcuts we can use to save the amount of typing we must do (and therefore minimise errors associated with human input of commands). 
+In particular, the use of "~" ".." are useful when changing directories or accessing files. 
+Additionally, the use of 'tab completion' can help us ensure we are typing commands, directory paths and file paths appropriately. 
 
-## Terminal Basics
+> ## Common Shortcuts  
+> **Home Directory** -- the tilda symbol "~" represents your home directory, e.g. /homeN/XX/jcXXYYY  
+> **Current Directory** -- a single full-stop "." represents your current working directory, e.g. same directory returned by `pwd`  
+> **Parent Directory** -- a double full-stop ".." represents the *parent* of your current working directory  
+> **Root Directory** -- on it's own, a single forwardslash "/" represents the root directory, e.g. the bottom of the directory *tree*  
+> **New Directory** -- between two words, a forwardslash "/" represents a new directory, e.g. in this situation "/homeN/XX/" the directory "XX" is contained within the directory "homeN"  
+> **Up & Down Arrows** -- use these keys to navigate through your command history  
+> **Tab Key** -- performs *autocompletion* of commands, directory paths & file paths  
+> **Escape Character** -- a single backslash "\" is used to 'escape' special characters, such as spaces, ampersands & apostrophes  
+> **Environment Variables** -- when you open your shell, a number of pre-saved variables, so called 'environment' variables are set for you. You can view them all by executing the command `printenv`, and access individual variables by prefacing their name with a "$", e.g. $USER or $HOSTNAME.  
+> **Wildcards** -- the asterisk symbol "*" can be used to represent a string of characters of non-zero length; most commonly you can integrate an '\*' into other commands to create search patterns.  For example, `ls *zip` will display all files and directories that end with "zip", regardless of the leading characters.   
+{: .callout}
+
+Insert directory image here and annotate to explain 'dir' shortcuts.
+
+## Basic UNIX Syntax
+
+Here use 'cd' and 'mkdir' as explainers to demonstrate the use of up/down, tab and escape
+Explain what 'zero exit' status is
 
 Type the command `whoami`,
 then press the ENTER key to send the command to the shell.
@@ -26,7 +49,7 @@ i.e.,
 it shows us who the shell thinks we are:
 
 ~~~
-$ whoami
+$ cd
 ~~~
 {: .bash}
 
@@ -43,39 +66,10 @@ More specifically, when we type `whoami` the shell:
 4.  displays a new prompt to tell us that it's ready for more commands.
 
 
-> ## Username Variation
->
-> In this lesson, we have used the username `nelle` (associated
-> with our hypothetical scientist Nelle) in example input and output throughout.  
-> However, when
-> you type this lesson's commands on your computer,
-> you should see and use something different,
-> namely, the username associated with the user account on your computer.  This
-> username will be the output from `whoami`.  In
-> what follows, `nelle` should always be replaced by that username.  
-{: .callout}
-
 > ## Unknown commands
-> Remember, the Shell is a program that runs other programs rather than doing
-> calculations itself. So the commands you type must be the names of existing
-> programs.
-> If you type the name of a program that does not exist and hit enter, you
-> will see an error message similar to this:
-> 
-> ~~~
-> $ mycommand
-> ~~~
-> {: .bash}
-> 
-> ~~~
-> -bash: mycommand: command not found
-> ~~~
-> {: .error}
-> 
-> The Shell (Bash) tells you that it cannot find the program `mycommand`
-> because the program you are trying to run does not exist on your computer.
-> We will touch on quite a few commands in the course of this tutorial, but there
-> are actually many more than we can cover here.
+> bash: cd: TEST: No such file or directory  
+> bash: mycommand: command not found  
+> bash: pwd: -Y: invalid option  
 {: .callout}
 
 Next,
@@ -101,143 +95,16 @@ $ pwd
 ~~~
 {: .output}
 
-> ## Home Directory Variation
->
-> The home directory path will look different on different operating systems.
-> On Linux it may look like `/home/nelle`,
-> and on Windows it will be similar to `C:\Documents and Settings\nelle` or
-> `C:\Users\nelle`.  
-> (Note that it may look slightly different for different versions of Windows.)
-> In future examples, we've used Mac output as the default - Linux and Windows
-> output may differ slightly, but should be generally similar.  
-{: .callout}
-
-To understand what a "home directory" is,
-let's have a look at how the file system as a whole is organized.  For the
-sake of this example, we'll be
-illustrating the filesystem on our scientist Nelle's computer.  After this
-illustration, you'll be learning commands to explore your own filesystem,
-which will be constructed in a similar way, but not be exactly identical.  
-
-On Nelle's computer, the filesystem looks like this:
-
-![The File System](../fig/filesystem.svg)
-
-At the top is the **root directory**
-that holds everything else.
-We refer to it using a slash character `/` on its own;
-this is the leading slash in `/Users/nelle`.
-
-Inside that directory are several other directories:
-`bin` (which is where some built-in programs are stored),
-`data` (for miscellaneous data files),
-`Users` (where users' personal directories are located),
-`tmp` (for temporary files that don't need to be stored long-term),
-and so on.  
-
-We know that our current working directory `/Users/nelle` is stored inside `/Users`
-because `/Users` is the first part of its name.
-Similarly,
-we know that `/Users` is stored inside the root directory `/`
-because its name begins with `/`.
-
-> ## Slashes
->
-> Notice that there are two meanings for the `/` character.
-> When it appears at the front of a file or directory name,
-> it refers to the root directory. When it appears *inside* a name,
-> it's just a separator.
-{: .callout}
-
-Underneath `/Users`,
-we find one directory for each user with an account on Nelle's machine,
-her colleagues the Mummy and Wolfman.  
-
-![Home Directories](../fig/home-directories.svg)
-
-The Mummy's files are stored in `/Users/imhotep`,
-Wolfman's in `/Users/larry`,
-and Nelle's in `/Users/nelle`.  Because Nelle is the user in our
-examples here, this is why we get `/Users/nelle` as our home directory.  
-Typically, when you open a new command prompt you will be in
-your home directory to start.  
-
-As part of going further with exploring the Bash Shell we'll move to connecting to a remote system.  This will allow us to see some new commands, ensure that the experience of each user from here on with the file system they are interacting with is (mostly) uniform, and let us begin to get familiar with the HPC system that we will be working with.
-
-
 ## Telling the Difference between the Local Terminal and the Remote Terminal
 
-You may have noticed that the prompt changed when you logged into the remote system using the terminal (if you logged in using PuTTY this will not apply because it does not offer a local terminal).  This change is important because it makes it clear on which system the commands you type will be run when you pass them into the terminal.  This change is also a small complication that we will need to navigate throughout the workshop.  Exactly what is reported before the `$` in the terminal when it is connected to the local system and the remote system will typically be different for every user.  We still need to indicate which system we are entering commands on though so we will adopt the following convention:
-
-`[local]$` when the command is to be entered on a terminal connected to your local computer
-
-`[remote]$` when the command is to be entered on a terminal connected to the remote system
-
-`$` when it really doesn't matter which system the terminal is connected to.
-
-> ## Being Certain Which System your Terminal is connected to
-> If you ever need to be certain which system a terminal you are using is connected to then use the follwing command: `$ hostname`.
-{: .callout}
-
-> ## Keep Two Terminal Windows Open
-> It is strongly recommended that you have two terminals open, one connected to the local system and one connected to the remote system, that you can switch back and forth between.  If you only use one terminal window then you will need to reconnect to the remote system using one of the methods above when you see a change from `[local]$` to `[remote]$` and disconnect when you see the reverse.
-{: .callout}
-
+`echo $HOME`  
+`echo $HOSTNAME`
 ## Navigating the Remote System
 
-Now let's learn the command that will let us see the contents of the remote filesystem.  We can see what's in our home directory by running `ls`,
-which stands for "listing":
+Using `ls`
+and using `cd`
 
-~~~
-[remote]$ ls
-~~~
-{: .bash}
-
-~~~
-project  projects  scratch
-~~~
-{: .output}
-
-(Again, your results may be slightly different depending on the operating
-system and how the remote system has been customized.)
-
-
-`ls` prints the names of the files and directories in the current directory in
-alphabetical order,
-arranged neatly into columns.
-
-Running `ls` on the remote system is likely significantly different from what you would see if you ran `ls` from your laptop or home computer.
-
- where 
-{: .output}
-
-> ## Differences between remote and local system
->
-> Open a second terminal window on your local computer and run the `ls` command without logging in remotely.
->  What differences do you see?
-> > you would likely see something more like this:
-> > ~~~
-> > Applications Documents    Library      Music        > > Public
-> > Desktop      Downloads    Movies       Pictures
-> > ~~~
-> > In addition you should also note that the preamble before the prompt (`$`) is different.  This is very important for making sure you know what system you are issuing commands on when in the shell.
-> {: .solution}
-{: .challenge}
-
-We can make its output more comprehensible by using the **flag** `-F`,
-which tells `ls` to add a trailing `/` to the names of directories:
-
-~~~
-[remote]$ ls -F
-~~~
-{: .bash}
-
-~~~
-project/  projects/  scratch/
-~~~
-{: .output}
-
-# **FROM HERE DOWN NEEDS TWEAKING TO FIT WITH A REMOTE HPC SYSTEM.  PROJECT, SCRATCH, etc. NEED DESCRIBING.** 
+# Using help/man to find all available options.
 
 `ls` has lots of other options. To find out what they are, we can type:
 
@@ -298,54 +165,8 @@ Mandatory arguments to long options are mandatory for short options too.
   -I, --ignore=PATTERN       do not list implied entries matching shell PATTERN
   -k, --kibibytes            default to 1024-byte blocks for disk usage
   -l                         use a long listing format
-  -L, --dereference          when showing file information for a symbolic
-                               link, show information for the file the link
-                               references rather than for the link itself
-  -m                         fill width with a comma separated list of entries
-  -n, --numeric-uid-gid      like -l, but list numeric user and group IDs
-  -N, --literal              print raw entry names (don't treat e.g. control
-                               characters specially)
-  -o                         like -l, but do not list group information
-  -p, --indicator-style=slash
-                             append / indicator to directories
-  -q, --hide-control-chars   print ? instead of nongraphic characters
-      --show-control-chars   show nongraphic characters as-is (the default,
-                               unless program is 'ls' and output is a terminal)
-  -Q, --quote-name           enclose entry names in double quotes
-      --quoting-style=WORD   use quoting style WORD for entry names:
-                               literal, locale, shell, shell-always,
-                               shell-escape, shell-escape-always, c, escape
-  -r, --reverse              reverse order while sorting
-  -R, --recursive            list subdirectories recursively
-  -s, --size                 print the allocated size of each file, in blocks
-  -S                         sort by file size, largest first
-      --sort=WORD            sort by WORD instead of name: none (-U), size (-S),
-                               time (-t), version (-v), extension (-X)
-      --time=WORD            with -l, show time as WORD instead of default
-                               modification time: atime or access or use (-u);
-                               ctime or status (-c); also use specified time
-                               as sort key if --sort=time (newest first)
-      --time-style=STYLE     with -l, show times using style STYLE:
-                               full-iso, long-iso, iso, locale, or +FORMAT;
-                               FORMAT is interpreted like in 'date'; if FORMAT
-                               is FORMAT1<newline>FORMAT2, then FORMAT1 applies
-                               to non-recent files and FORMAT2 to recent files;
-                               if STYLE is prefixed with 'posix-', STYLE
-                               takes effect only outside the POSIX locale
-  -t                         sort by modification time, newest first
-  -T, --tabsize=COLS         assume tab stops at each COLS instead of 8
-  -u                         with -lt: sort by, and show, access time;
-                               with -l: show access time and sort by name;
-                               otherwise: sort by access time, newest first
-  -U                         do not sort; list entries in directory order
-  -v                         natural sort of (version) numbers within text
-  -w, --width=COLS           set output width to COLS.  0 means no limit
-  -x                         list entries by lines instead of by columns
-  -X                         sort alphabetically by entry extension
-  -Z, --context              print any security context of each file
-  -1                         list one file per line.  Avoid '\n' with -q or -b
-      --help     display this help and exit
-      --version  output version information and exit
+
+....
 
 The SIZE argument is an integer and optional unit (example: 10K is 10*1024).
 Units are K,M,G,T,P,E,Z,Y (powers of 1024) or KB,MB,... (powers of 1000).
@@ -370,41 +191,6 @@ Many bash commands, and programs that people have written that can be
 run from within bash, support a `--help` flag to display more
 information on how to use the commands or programs.
 
-> ## Unsupported command-line options
-> If you try to use an option that is not supported, `ls` and other programs
-> will print an error message similar to this:
->
-> ~~~
-> [remote]$ ls -j
-> ~~~
-> {: .bash}
-> 
-> ~~~
-> ls: invalid option -- 'j'
-> Try 'ls --help' for more information.
-> ~~~
-> {: .error}
-{: .callout}
-
-For more information on how to use `ls` we can type `man ls`.
-`man` is the Unix "manual" command:
-it prints a description of a command and its options,
-and (if you're lucky) provides a few examples of how to use it.
-
-To navigate through the `man` pages,
-you may use the up and down arrow keys to move line-by-line,
-or try the "b" and spacebar keys to skip up and down by full page.
-Quit the `man` pages by typing "q".
-
-Here,
-we can see that our home directory contains mostly **sub-directories**.
-Any names in your output that don't have trailing slashes,
-are plain old **files**.
-And note that there is a space between `ls` and `-F`:
-without it,
-the shell thinks we're trying to run a command called `ls-F`,
-which doesn't exist.
-
 > ## Parameters vs. Arguments
 >
 > According to [Wikipedia](https://en.wikipedia.org/wiki/Parameter_(computer_programming)#Parameters_and_arguments),
@@ -423,175 +209,6 @@ which doesn't exist.
 > and `Documents` is the argument.
 {: .callout}
 
-We can also use `ls` to see the contents of a different directory.  Let's take a
-look at our `Desktop` directory by running `ls -F Desktop`,
-i.e.,
-the command `ls` with the **arguments** `-F` and `Desktop`.
-The second argument --- the one *without* a leading dash --- tells `ls` that
-we want a listing of something other than our current working directory:
-
-~~~
-[remote]$ ls -F Desktop
-~~~
-{: .bash}
-
-~~~
-data-shell/
-~~~
-{: .output}
-
-Your output should be a list of all the files and sub-directories on your
-Desktop, including the `data-shell` directory you downloaded at
-the start of the lesson.  Take a look at your Desktop to confirm that
-your output is accurate.  
-
-As you may now see, using a bash shell is strongly dependent on the idea that
-your files are organized in an hierarchical file system.  
-Organizing things hierarchically in this way helps us keep track of our work:
-it's possible to put hundreds of files in our home directory,
-just as it's possible to pile hundreds of printed papers on our desk,
-but it's a self-defeating strategy.
-
-Now that we know the `data-shell` directory is located on our Desktop, we
-can do two things.  
-
-First, we can look at its contents, using the same strategy as before, passing
-a directory name to `ls`:
-
-~~~
-[remote]$ ls -F Desktop/data-shell
-~~~
-{: .bash}
-
-~~~
-creatures/          molecules/          notes.txt           solar.pdf
-data/               north-pacific-gyre/ pizza.cfg           writing/
-~~~
-{: .output}
-
-Second, we can actually change our location to a different directory, so
-we are no longer located in
-our home directory.  
-
-The command to change locations is `cd` followed by a
-directory name to change our working directory.
-`cd` stands for "change directory",
-which is a bit misleading:
-the command doesn't change the directory,
-it changes the shell's idea of what directory we are in.
-
-Let's say we want to move to the `data` directory we saw above.  We can
-use the following series of commands to get there:
-
-~~~
-[remote]$ cd Desktop
-[remote]$ cd data-shell
-[remote]$ cd data
-~~~
-{: .bash}
-
-These commands will move us from our home directory onto our Desktop, then into
-the `data-shell` directory, then into the `data` directory.  `cd` doesn't print anything,
-but if we run `pwd` after it, we can see that we are now
-in `/Users/nelle/Desktop/data-shell/data`.
-If we run `ls` without arguments now,
-it lists the contents of `/Users/nelle/Desktop/data-shell/data`,
-because that's where we now are:
-
-~~~
-[remote]$ pwd
-~~~
-{: .bash}
-
-~~~
-/Users/nelle/Desktop/data-shell/data
-~~~
-{: .output}
-
-~~~
-[remote]$ ls -F
-~~~
-{: .bash}
-
-~~~
-amino-acids.txt   elements/     pdb/	        salmon.txt
-animals.txt       morse.txt     planets.txt     sunspot.txt
-~~~
-{: .output}
-
-We now know how to go down the directory tree, but
-how do we go up?  We might try the following:
-
-~~~
-[remote]$ cd data-shell
-~~~
-{: .bash}
-
-~~~
--bash: cd: data-shell: No such file or directory
-~~~
-{: .error}
-
-But we get an error!  Why is this?  
-
-With our methods so far,
-`cd` can only see sub-directories inside your current directory.  There are
-different ways to see directories above your current location; we'll start
-with the simplest.  
-
-There is a shortcut in the shell to move up one directory level
-that looks like this:
-
-~~~
-[remote]$ cd ..
-~~~
-{: .bash}
-
-`..` is a special directory name meaning
-"the directory containing this one",
-or more succinctly,
-the **parent** of the current directory.
-Sure enough,
-if we run `pwd` after running `cd ..`, we're back in `/Users/nelle/Desktop/data-shell`:
-
-~~~
-[remote]$ pwd
-~~~
-{: .bash}
-
-~~~
-/Users/nelle/Desktop/data-shell
-~~~
-{: .output}
-
-The special directory `..` doesn't usually show up when we run `ls`.  If we want
-to display it, we can give `ls` the `-a` flag:
-
-~~~
-[remote]$ ls -F -a
-~~~
-{: .bash}
-
-~~~
-./                  creatures/          notes.txt
-../                 data/               pizza.cfg
-.bash_profile       molecules/          solar.pdf
-Desktop/            north-pacific-gyre/ writing/
-~~~
-{: .output}
-
-`-a` stands for "show all";
-it forces `ls` to show us file and directory names that begin with `.`,
-such as `..` (which, if we're in `/Users/nelle`, refers to the `/Users` directory)
-As you can see,
-it also displays another special directory that's just called `.`,
-which means "the current working directory".
-It may seem redundant to have a name for it,
-but we'll see some uses for it soon.
-
-Note that in most command line tools, multiple arguments can be combined 
-with a single `-` and no spaces between the arguments: `ls -F -a` is 
-equivalent to `ls -Fa`.
 
 > ## Other Hidden Files
 >
@@ -690,22 +307,6 @@ to move to `data-shell`.
 
 Run `pwd` and `ls -F` to ensure that we're in the directory we expect.  
 
-> ## Two More Shortcuts
->
-> The shell interprets the character `~` (tilde) at the start of a path to
-> mean "the current user's home directory". For example, if Nelle's home
-> directory is `/Users/nelle`, then `~/data` is equivalent to
-> `/Users/nelle/data`. This only works if it is the first character in the
-> path: `here/there/~/elsewhere` is *not* `here/there/Users/nelle/elsewhere`.
->
-> Another shortcut is the `-` (dash) character.  `cd` will translate `-` into
-> *the previous directory I was in*, which is faster than having to remember,
-> then type, the full path.  This is a *very* efficient way of moving back
-> and forth between directories. The difference between `cd ..` and `cd -` is
-> that the former brings you *up*, while the latter brings you *back*. You can
-> think of it as the *Last Channel* button on a TV remote.
-{: .callout}
-
 ### Nelle's Pipeline: Organizing Files
 
 Knowing just this much about files and directories,
@@ -721,62 +322,6 @@ but she found them hard to understand after a couple of years.
 (The final straw was when she found herself creating
 a directory called `revised-revised-results-3`.)
 
-> ## Sorting Output
->
-> Nelle names her directories "year-month-day",
-> with leading zeroes for months and days,
-> because the shell displays file and directory names in alphabetical order.
-> If she used month names,
-> December would come before July;
-> if she didn't use leading zeroes,
-> November ('11') would come before July ('7'). Similarly, putting the year first
-> means that June 2012 will come before June 2013.
-{: .callout}
-
-Each of her physical samples is labelled according to her lab's convention
-with a unique ten-character ID,
-such as "NENE01729A".
-This is what she used in her collection log
-to record the location, time, depth, and other characteristics of the sample,
-so she decides to use it as part of each data file's name.
-Since the assay machine's output is plain text,
-she will call her files `NENE01729A.txt`, `NENE01812A.txt`, and so on.
-All 1520 files will go into the same directory.
-
-Now in her current directory `data-shell`,
-Nelle can see what files she has using the command:
-
-~~~
-[remote]$ ls north-pacific-gyre/2012-07-03/
-~~~
-{: .bash}
-
-This is a lot to type,
-but she can let the shell do most of the work through what is called **tab completion**.
-If she types:
-
-~~~
-[remote]$ ls nor
-~~~
-{: .bash}
-
-and then presses tab (the tab key on her keyboard),
-the shell automatically completes the directory name for her:
-
-~~~
-[remote]$ ls north-pacific-gyre/
-~~~
-{: .bash}
-
-If she presses tab again,
-Bash will add `2012-07-03/` to the command,
-since it's the only possible completion.
-Pressing tab again does nothing,
-since there are 19 possibilities;
-pressing tab twice brings up a list of all the files,
-and so on.
-This is called **tab completion**,
-and we will see it in many other tools as we go on.
 
 > ## Absolute vs Relative Paths
 >
@@ -885,183 +430,9 @@ and we will see it in many other tools as we go on.
 > {: .solution}
 {: .challenge}
 
-## Making files to practice with
-Before we start moving files around we should have some files to move around that don't really matter beyond their value in being moved around.  If they get lost or damaged or anything else it won't really matter because they are mostly harmless (we say "mostly" because it is possible that they might add clutter or overwrite another file with the same name but we will take steps to avoid these risks).  We will create such files using the `touch` command after using `cd` to make sure that we are in the home directory.
 
-~~~
-[remote]$ cd
-[remote]$ touch fileToMove
-~~~
-{: .bash}
 
-~~~
-[remote]$ ls
-~~~
-{: .bash}
-
-~~~
-...
-fileToMove
-...
-~~~
-{: .output}
-
-We now have a file called "fileToMove" that we can move around.  If you run an `ls -l` you will note that its size is zero.  This is because it has no content.  This makes it a fairly safe file to move around because it can't really do anything.  It is also an easy file to move around because we won't need to worry about transfer times.
-
-> ## Overloading Commands
-> Running `$ man touch` will reveal that `touch` is the command meant to be used for changing the timestamps associated with files.  We're not using it to do this though and are instead using it to create a new file.  This is because when touch is run if it is passed the name for a file that doesn't exist it will create that file.  This is a useful feature but not what the command is specifically intended for and so we sometimes refer to this as "overloading" a command.  Using the concatentate file command `cat` to print the contents of a single file is another example of this.
-{: .callout}
-
-## Creating Directories
-
-Now that we have a file to move around we need a place to move the file to.  We can create a new directory using the `mkdir` command:
-
-~~~
-[remote]$ mkdir practiceDir
-[remote]$ ls
-~~~
-{: .bash}
-
-~~~
-...
-practiceDir
-...
-~~~
-{: .output}
-
-We can check the content of the new directory as well:
-
-~~~
-[remote]$ ls practiceDir
-~~~
-{: .bash}
-
-~~~
-
-~~~
-{: .output}
-
-We don't have any output returned, which is to be expected because we only just created the directory and nothing has been added to it yet.
-
-## Moving Files Around
-
-We can move our new file into the new directory with the move command, `mv`.  The syntax of `mv` is `$ mv file_being_moved location_moving_to`.   Moving our new file "fileToMove" to our new directory "practiceDir" can be done as follows:
-
-~~~
-[remote]$ mv fileToMove practiceDir
-~~~
-{: .bash}
-
-"Silence is Golden" so as long as the move was successful we will receive no output.  We can check that the file was moved successfully using `ls`:
-
-~~~
-[remote]$ ls practiceDir
-~~~
-{: .bash}
-
-~~~
-fileToMove
-~~~
-{: .output}
-
-We can move `fileToMove` back from `practiceDir` as well:
-
-~~~
-[remote]$ mv practiceDir/fileToMove fileToMove
-~~~
-{: .bash}
-
-Again, if the transfer is successful then we will receive no output but we can use `ls` to check.
-
-~~~
-[remote]$ ls
-~~~
-{: .bash}
-
-~~~
-fileToMove
-~~~
-{: .output}
-
-~~~
-[remote]$ ls practiceDir
-~~~
-{: .bash}
-
-~~~
-
-~~~
-{: .output}
- 
-## Copying Files
- 
-We can also copy files, leaving the original file while a second version is created either elsewhere or in the same location.  The copy command is `cp` and its syntax is the same as for `mv`: `$ cp file_being_copied location_copying_to`.  We can create a copy of "fileToMove" inside of the "practiceDir" directory as follows:
-
-~~~
-[remote]$ cp fileToMove practiceDir
-~~~
-{: .bash}
-
-"Silence is Golden" so as long as the copy was successful we will receive no output.  We can check that the file was copied successfully using `ls`:
-
-~~~
-[remote]$ ls
-~~~
-{: .bash}
-
-~~~
-...
-fileToMove
-...
-~~~
-{: .output}
-
-~~~
-[remote]$ ls practiceDir
-~~~
-{: .bash}
-
-~~~
-fileToMove
-~~~
-{: .output}
-
-## Removing Files and Directories
-
-Sooner or later it will become important to be able to remove files and directories from a system via the command line.  This is usually done with the remove command, `rm`.  The syntax of `rm` is: `$rm optional_list_of_opitons list_of_files_to_be_removed`.  To remove "fileToMove" from our current directory, which should also be the home directory, we issue the following command:
-
-~~~
-[remote]$ rm fileToMove
-~~~
-{: .bash}
-
-If the file exists and there is nothing standing in the way of your ability to delete it such as a lack of authority to do so then the `rm` command will not return any output and just remove the file.  We can confirm this with the `ls` command.
-
-We can also remove entire directories with `rm`.  Try this now with `practiceDir`:
-
-~~~
-[remote]$ rm practiceDir
-~~~
-{: .bash}
-
-~~~
-rm: cannot remove 'practiceDir/': Is a directory
-~~~
-{: .output}
-
-This will notably fail with an error declaring that `rm` cannot remove "practiceDir" because it is a directory.  This is not actually the case. `rm` is quite capable of removing directories, we just need to pass the appropriate options.  The option we want here is `-r` with turns on recursion, allowing the removal of all the content within a directory and any directories and files within that directory and any directories and files within those directories and so on.  Let's try again with recursion flag:
-
-~~~
-[remote]$ rm -r practiceDir
-~~~
-{: .bash}
-
-The directory named "practiceDir" is now gone and so is the file named "fileToMove" that was inside it.
-
-> ## No Trash Can or Recycle Bin
-> If you are used to working with graphic user interfaces such as Windows, Mac OSX, or X-Windows on Linux then you are likely used to there being a special folder that holds any files that you delete for at least a short period of time before they are gone for good.  This feature does not exist in most command line environments.  When you use `rm` to remove a file it really is removed, short of a forensic audit of the filesystem.  Be very careful!
-{: .callout}
-
+### touch, cp, mv, rm, rmdir, scp
 
 ## Moving files to and from the remote system from and to your local computer
 
@@ -1093,158 +464,7 @@ fileToMove
 ~~~
 {: .output}
 
-WHAT IF YOU WANTED THE FILE SOMEWHERE OTHER THAN THE HOME DIRECTORY?
 
-> ## Remember the `:`
-> Note the colon (`:`) at the end of the command.  This is a very important modifier to include.  If it isn't included then running `scp` will result in a copy of the file that was to be moved being created in the current directory with the name of the remote system.  In the case of the globus.tgz example above it would look like the following:
-> 
-> ~~~
-> [local]$ scp globus.tgz nelle@cedar.computecanada.ca: 
-> [local]$ ls
-> ~~~
-> {: .bash}
-> 
-> ~~~
-> globus.tgz
-> nelle@cedar.computecanada.ca
-> ~~~
-> {: .output}
-> 
-> If this does happen then the extra file can be removed with `rm`.
-> 
-> ~~~
-> [local]$ rm nelle@cedar.computecanada.ca
-> ~~~
-> {: .bash}
-{: .callout}
-
-NEED AN EXERCISE.  OPEN A SECOND TERMINAL WINDOW ON LOCAL SYSTEM AND USE `scp` TO PUSH A FILE TO THE REMOTE SYSTEM
-
-### `scp	` from the remote system to your Local computer
-
-Moving files from the remote system to the local system will also be necessary.  This is also done from the local system so instead of pushing content we'll be pulling it.  This is achieved by changing the order of the inputs passed to the `scp` command and specifying the exact location of the file that we want from the remote system.
-
-scp simpson@cedar.computecanada.ca:junk junk
-
-> ## Copying entire directories
-> 
-> HIGHLIGHT the `-r` flag here.  Note its similarity to `-r` with `rm`.
-> 
-{: .callout}
-
-## Transferring files interactively with sftp
-
-`scp` is useful, but what if we don't know the exact location of what we want to transfer?
-Or perhaps we're simply not sure which files we want to tranfer yet.
-`sftp` is an interactive way of downloading and uploading files.
-To connect to a cluster, using `sftp` the syntax is: `sftp yourUsername@remote.computer.address`.
-This will start what appears to be a Bash shell but that is really the sftp program.  We know that we are inside the sftp program because the prompt changes to `sftp>`.  While `sftp` looks like a Bash shell we only have access to a limited number of commands.
-
-We can see which commands are available with `help`:
-```
-sftp> help
-```
-{: .bash}
-```
-Available commands:
-bye                                Quit sftp
-cd path                            Change remote directory to 'path'
-chgrp grp path                     Change group of file 'path' to 'grp'
-chmod mode path                    Change permissions of file 'path' to 'mode'
-chown own path                     Change owner of file 'path' to 'own'
-df [-hi] [path]                    Display statistics for current directory or
-                                   filesystem containing 'path'
-exit                               Quit sftp
-get [-afPpRr] remote [local]       Download file
-reget [-fPpRr] remote [local]      Resume download file
-reput [-fPpRr] [local] remote      Resume upload file
-help                               Display this help text
-lcd path                           Change local directory to 'path'
-lls [ls-options [path]]            Display local directory listing
-lmkdir path                        Create local directory
-ln [-s] oldpath newpath            Link remote file (-s for symlink)
-lpwd                               Print local working directory
-ls [-1afhlnrSt] [path]             Display remote directory listing
-
-# omitted further output for brevity
-```
-{: .output}
-
-Notice the presence of multiple commands that make mention of local and remote.
-We are actually connected to two computers at once (with two working directories!).
-
-To show our remote working directory:
-```
-sftp> pwd
-```
-{: .bash}
-```
-Remote working directory: /global/home/yourUsername
-```
-{: .output}
-
-To show our local working directory, we add an `l` in front of the command:
-
-```
-sftp> lpwd
-```
-{: .bash}
-```
-Local working directory: /home/jeff/Documents/teaching/hpc-intro
-```
-{: .output}
-
-The same pattern follows for all other commands:
-
-* `ls` shows the contents of our remote directory, while `lls` shows our local directory contents.
-* `cd` changes the remote directory, `lcd` changes the local one.
-
-To upload a file, we type `put some-file.txt` (tab-completion works here).
-
-```
-sftp> put config.toml
-```
-{: .bash}
-```
-Uploading config.toml to /global/home/yourUsername/config.toml
-config.toml                                   100%  713     2.4KB/s   00:00 
-```
-{: .output}
-
-To download a file we type `get some-file.txt`:
-
-```
-sftp> get config.toml
-```
-{: .bash}
-```
-Fetching /global/home/yourUsername/config.toml to config.toml
-/global/home/yourUsername/config.toml                               100%  713     9.3KB/s   00:00 
-```
-{: .output}
-
-And we can recursively put/get files by just adding `-r`.
-Note that the directory needs to be present beforehand.
-
-```
-sftp> mkdir content
-sftp> put -r content/
-```
-{: .bash}
-```
-Uploading content/ to /global/home/yourUsername/content
-Entering content/
-content/scheduler.md              100%   11KB  21.4KB/s   00:00    
-content/index.md                  100% 1051     7.2KB/s   00:00    
-content/transferring-files.md     100% 6117    36.6KB/s   00:00    
-content/.transferring-files.md.sw 100%   24KB  28.4KB/s   00:00    
-content/cluster.md                100% 5542    35.0KB/s   00:00    
-content/modules.md                100%   17KB 158.0KB/s   00:00    
-content/resources.md              100% 1115    29.9KB/s   00:00    
-```
-{: .output}
-
-To quit, we type `exit` or `bye`.
 
 ## Grabbing files from the internet
 
@@ -1263,7 +483,7 @@ The syntax is relatively straightforwards: `wget https://some/link/to/a/file.tar
 > * We are interested in the `Drosophila_melanogaster.BDGP6.dna.toplevel.fa.gz` file.
 {: .challenge}
 
-> ## Working with compressed files
+> ## Working with compressed files, using unzip and gunzip
 > 
 > The file we just downloaded is gzipped (has the `.gz` 
 > extension).
@@ -1293,47 +513,6 @@ The syntax is relatively straightforwards: `wget https://some/link/to/a/file.tar
 > 
 {: .callout}
 
-## Scripting
-
-We need a short script and a brief explanation on `nano`.  Or we could use Jeff's simple script (below).
-
-> ## Creating our test job
-> 
-> 
->
->```
->#!/bin/bash
->
-> echo 'This script is running on:'
-> hostname
-> sleep 120
->```
-{: .challenge}
-
-nano
-
-<!--
-
-Not sure if we want this content.  Likely should be driven by the use case.
-
-## Controlling File Ownership
-
-When working on an HPC system you will likely find yourself working with files that you need to either take ownership of or assign ownership to.
 
 
-List with `ls -l`
 
-Change ownership with `chown`
-
-## Groups
-
-## Changing Group Association
-
-chgrp
-
-## Making Scripts Executable / Changing Permissions
-
-chmod
-
-p. 195
--->
