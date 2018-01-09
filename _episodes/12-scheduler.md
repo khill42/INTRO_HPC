@@ -22,8 +22,8 @@ How do we ensure that a task is run with the resources it needs?
 This job is handled by a special piece of software called the scheduler.
 On an HPC system, the scheduler manages which jobs run where and when.
 
-The scheduler used in this lesson is SLURM.
-Although SLURM is not used everywhere, 
+The scheduler used in this lesson is PBS Pro (PBS for short).
+Although PBS is not used everywhere, 
 running jobs is quite similar regardless of what software is being used.
 The exact syntax might change, but the concepts remain the same.
 
@@ -31,7 +31,27 @@ The exact syntax might change, but the concepts remain the same.
 
 The most basic use of the scheduler is to run a command non-interactively.
 This is also referred to as batch job submission.
-In this case, a job is just a shell script.
+In this case, we need to make a script that incorporates some arguments for PBS such as resources needed and modules to load. An example has been included in the Zip on the setup page.
+
+
+>#!/bin/bash
+>#PBS -A qris-gu
+>#Give the job a name ... in the past had to start alphabetical and be < 13 chars
+>#PBS -N test_script
+>#PBS -l walltime=00:03:00
+>#PBS -l nodes=1:ppn=1:mem=2g
+>
+>echo 'This script is running on:'
+>hostname
+>echo 'The date is :'
+>date
+>sleep 120
+
+
+
+## Below this is all SLURM, need to rewrite as PBS
+
+a job is just a shell script.
 Let's create a demo shell script to run as a test.
 
 > ## Creating our test job
