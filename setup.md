@@ -9,6 +9,11 @@ permalink: /setup/
 You will need to have an HPC user account before the workshop begins.  JCU staff and students can apply for an account online [HERE](https://plone.jcu.edu.au/hpc/getting-an-account.html). 
 Please ensure you have registered for your account **ATLEAST 3 DAYS PRIOR** to the commencement of the workshop.
 
+## Example Files
+
+You will find the example [files used in this tutorial here.](https://github.com/amandamiotto/INTRO_HPC/raw/gh-pages/files/hpcCarpentry.zip)
+
+
 ## SSH
 
 In order to connect to a remote computer, such as an HPC cluster.  Students will need an 'SSH' client on their computer;
