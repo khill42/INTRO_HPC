@@ -33,20 +33,20 @@ The most basic use of the scheduler is to run a command non-interactively.
 This is also referred to as batch job submission.
 In this case, we need to make a script that incorporates some arguments for PBS such as resources needed and modules to load. An example has been included in the Zip on the setup page.
 
+```
+#!/bin/bash
+#PBS -A qris-gu
+#Give the job a name ... in the past had to start alphabetical and be < 13 chars
+#PBS -N test_script
+#PBS -l walltime=00:03:00
+#PBS -l nodes=1:ppn=1:mem=2g
 
->#!/bin/bash
->#PBS -A qris-gu
->#Give the job a name ... in the past had to start alphabetical and be < 13 chars
->#PBS -N test_script
->#PBS -l walltime=00:03:00
->#PBS -l nodes=1:ppn=1:mem=2g
->
->echo 'This script is running on:'
->hostname
->echo 'The date is :'
->date
->sleep 120
-
+echo 'This script is running on:'
+hostname
+echo 'The date is :'
+date
+sleep 120
+```
 
 
 ## Below this is all SLURM, need to rewrite as PBS
