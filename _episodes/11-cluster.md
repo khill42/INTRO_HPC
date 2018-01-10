@@ -108,24 +108,58 @@ It should never be used for doing actual work.
 
 The real work on a cluster gets done by the "worker" nodes.
 Worker nodes come in many shapes and sizes, but generally are dedicated to doing all of the heavy lifting that needs doing. 
-All interaction with the worker nodes is handled by a specialized piece of software called a scheduler (called SLURM, in this case). 
-We can view all of the worker nodes with the `sinfo` command.
+All interaction with the worker nodes is handled by a specialized piece of software called a scheduler. 
+We can view all of the worker nodes with the `pbsnodes -a` command.
 
 ```
-sinfo
+pbsnodes -a
 ```
 {: .bash}
 ```
-PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-compute*     up 7-00:00:00      1 drain* gra259
-compute*     up 7-00:00:00     11  down* gra[8,99,211,268,376,635,647,803,852,966,986]
-compute*     up 7-00:00:00      1   drng gra272
-compute*     up 7-00:00:00     31   comp gra[988-991,994-1002,1006-1007,1015,1017,1021-1022,1028-1033,1037-1041,1043]
-compute*     up 7-00:00:00     33  drain gra[225-251,253-256,677,1026]
-compute*     up 7-00:00:00    323    mix gra[7,13,25,41,43-44,56,58-77,107-108,112-113,117,125-126,163,168-169,173,180-203,205-210,220,224,257-258,300-317,320,322-349,385-387,398,400-428,448,452,460,528-529,540-541,565-601,603-606,618,622-623,628,643-646,652,657,660,665,678-699,710-711,713-728,734-735,737,741-751,753-755,765,767,774,776,778,796-798,802,805-812,827,830,832,845-846,853,856,865-866,872,875,912,914,916-917,925,928,930,934,953-954,959-960,965,969-971,973,1004,1008-1009,1011,1013-1014,1023-1025]
-compute*     up 7-00:00:00    464  alloc gra[1-6,9-12,14-19,21-24,26-40,42,45-55,57,100-106,109-111,114-116,118-122,127,164-167,174-179,204,212-219,221-223,252,260-267,269-271,273-284,318-319,321,350-375,377-384,388-397,399,453-459,461-501,526-527,530-539,542-564,607-608,629-634,636-642,648-651,653-656,658-659,661-664,666-676,700-703,738,756-764,766,768-773,804,813-826,828-829,831,833-844,847-851,854-855,857-864,867-871,873-874,876-911,913,915,918-924,926-927,929,931-933,935-936,938-952,955-958,961-964,967-968,972,974-985,987,992-993,1003,1005,1010,1012,1016,1018-1020,1027,1034-1036,1042]
-compute*     up 7-00:00:00    176   idle gra[78-98,123-124,128-162,170-172,285-299,429-447,449-451,502-525,602,609-617,619-621,624-627,704-709,712,729-733,736,739-740,752,775,777,779-795,799-800]
-compute*     up 7-00:00:00      3   down gra[20,801,937]
+aw133
+     Mom = aw133.local
+     ntype = PBS
+     state = free
+     pcpus = 24
+     jobs = 25224.awongmgmr1/0, 25224.awongmgmr1/1, 25224.awongmgmr1/2, 25224.awongmgmr1/3, 25224.awongmgmr1/4, 25224.awongmgmr1/5, 25224.awongmgmr1/6, 25224.awongmgmr1/7, 25224.awongmgmr1/8, 25224.awongmgmr1/9, 25224.awongmgmr1/10, 25224.awongmgmr1/11, 25224.awongmgmr1/12, 25224.awongmgmr1/13, 25224.awongmgmr1/14, 25224.awongmgmr1/15, 25224.awongmgmr1/16, 25224.awongmgmr1/17, 25224.awongmgmr1/18, 25224.awongmgmr1/19
+     resources_available.arch = linux
+     resources_available.host = aw133
+     resources_available.intel = True
+     resources_available.mem = 264568300kb
+     resources_available.ncpus = 24
+     resources_available.vnode = aw133
+     resources_assigned.accelerator_memory = 0kb
+     resources_assigned.mem = 115343360kb
+     resources_assigned.naccelerators = 0
+     resources_assigned.ncpus = 20
+     resources_assigned.vmem = 0kb
+     comment = Eplg: 25216.awongmgmr1 Exit_status=1 at 20180110 04:56"
+     resv_enable = True
+     sharing = default_shared
+     license = l
+
+aw134
+     Mom = aw134.local
+     ntype = PBS
+     state = job-busy,busy
+     pcpus = 24
+     jobs = 25235.awongmgmr1/0, 25235.awongmgmr1/1, 25235.awongmgmr1/2, 25235.awongmgmr1/3, 25235.awongmgmr1/4, 25235.awongmgmr1/5, 25235.awongmgmr1/6, 25235.awongmgmr1/7, 25236.awongmgmr1/8, 25236.awongmgmr1/9, 25236.awongmgmr1/10, 25236.awongmgmr1/11, 25236.awongmgmr1/12, 25236.awongmgmr1/13, 25236.awongmgmr1/14, 25236.awongmgmr1/15, 25237.awongmgmr1/16, 25237.awongmgmr1/17, 25237.awongmgmr1/18, 25237.awongmgmr1/19, 25237.awongmgmr1/20, 25237.awongmgmr1/21, 25237.awongmgmr1/22, 25237.awongmgmr1/23
+     resources_available.arch = linux
+     resources_available.host = aw134
+     resources_available.intel = True
+     resources_available.mem = 264568300kb
+     resources_available.ncpus = 24
+     resources_available.vnode = aw134
+     resources_assigned.accelerator_memory = 0kb
+     resources_assigned.mem = 25165824kb
+     resources_assigned.naccelerators = 0
+     resources_assigned.ncpus = 24
+     resources_assigned.vmem = 0kb
+     comment = Eplg: 25204.awongmgmr1 Exit_status=1 at 20180110 03:02"
+     resv_enable = True
+     sharing = default_shared
+     license = l
+
 ```
 {: .output}
 
