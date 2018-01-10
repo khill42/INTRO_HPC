@@ -31,10 +31,13 @@ The exact syntax might change, but the concepts remain the same.
 
 The most basic use of the scheduler is to run a command non-interactively.
 This is also referred to as batch job submission.
-In this case, we need to make a script that incorporates some arguments for PBS such as resources needed and modules to load. An example has been included in the Zip on the setup page.
-
+In this case, we need to make a script that incorporates some arguments for PBS such as resources needed and modules to load. An example has been included in the Zip on the setup page. This is just a bash script with some parameters set.
+```
+test.pbs
+```
 ```
 #!/bin/bash
+#PBS -q workq
 #PBS -A qris-gu
 #Give the job a name ... in the past had to start alphabetical and be < 13 chars
 #PBS -N test_script
@@ -47,31 +50,72 @@ echo 'The date is :'
 date
 sleep 120
 ```
+We will talk about the parameters set above and their defaults later in this lesson.
 
+As this is just a bash script, you can run it as any bash script on the head node. Please note- its very very important not to run any large or resource heavy script on the head node, as every user relies on this head node.
 
-## Below this is all SLURM, need to rewrite as PBS
+To test a small pbs script, run it as:
+```
+~> ./test.pbs
+This script is running on:
+awoonga1.local
+The date is :
+Wed Jan 10 11:27:38 AEST 2018
+```
+This script will take 2 minutes to finish due to the `sleep 120` command.
 
-a job is just a shell script.
-Let's create a demo shell script to run as a test.
+If you get a Permissions denied error, you will need to give your script executable permissions as per the last lesson.
 
-> ## Creating our test job
-> 
-> Using your favorite text editor, create the following script and run it.
-> Does it run on the cluster or just our login node?
->
->```
->#!/bin/bash
->
-> echo 'This script is running on:'
-> hostname
-> sleep 120
->```
-{: .challenge}
+```
+~> chmod +x test.pbs
+```
 
 If you completed the previous challenge successfully, 
 you probably realize that there is a distinction between 
 running the job through the scheduler and just "running it".
-To submit this job to the scheduler, we use the `sbatch` command.
+To submit this job to the scheduler, we use the `qsub` command.
+
+```
+~> qsub test.pbs
+25333.awongmgmr1
+~>
+```
+The number that first appears is your Job ID. When the job is completed, you will get two files: an Output and an Error file (even if there is no errors). They will be named {JobName}.o{JobID} and {JobName}.e{JobID} respectively.
+
+## Parameters
+
+
+You can find out more information about these parameters by viewing the manual page of the `qsub` function
+
+```
+man qsub
+```
+
+
+## Queues
+
+There are usually a number of available queues to use on your HPC. To see what queues are available, you can use the command `qstat -Q`. If you are not sure which to use, workq is a good start and is generally set as the default.
+
+```
+~> qstat -Q
+Queue              Max   Tot Ena Str   Que   Run   Hld   Wat   Trn   Ext Type
+---------------- ----- ----- --- --- ----- ----- ----- ----- ----- ----- ----
+workq                0     0 yes yes     0     0     0     0     0     0 Rout
+Short                0    18 yes yes     1    17     0     0     0     0 Exec
+Single               0    36 yes yes     0    36     0     0     0     0 Exec
+Interact             0     8 yes yes     0     7     0     0     0     0 Exec
+Long                 0     2 yes yes     0     2     0     0     0     0 Exec
+Special              0     0 yes yes     0     0     0     0     0     0 Exec
+DeadEnd              0     0 yes  no     0     0     0     0     0     0 Exec
+```
+{: .bash}
+
+
+## Below this is all SLURM, need to rewrite as PBS
+
+
+
+
 
 ```
 sbatch example-job.sh
