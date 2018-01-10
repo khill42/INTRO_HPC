@@ -82,6 +82,23 @@ To submit this job to the scheduler, we use the `qsub` command.
 ```
 The number that first appears is your Job ID. When the job is completed, you will get two files: an Output and an Error file (even if there is no errors). They will be named {JobName}.o{JobID} and {JobName}.e{JobID} respectively.
 
+And that's all we need to do to submit a job. 
+To check on our job's status, we use the command `qstat`.
+
+```
+~> qstat
+Job id            Name             User              Time Use S Queue
+----------------  ---------------- ----------------  -------- - -----
+25399.awongmgmr1  test_script      amandamiotto      00:00:00 R Short  
+```
+
+{: .output}
+
+We can see all the details of our job, most importantly that it is in the "R" or "RUNNING" state.
+Sometimes our jobs might need to wait in a queue ("PENDING") or have an error.
+The best way to check our job's status is with `qtat`.
+
+
 ## Parameters
 
 
@@ -111,6 +128,8 @@ DeadEnd              0     0 yes  no     0     0     0     0     0     0 Exec
 {: .bash}
 
 
+
+
 ## Below this is all SLURM, need to rewrite as PBS
 
 
@@ -126,8 +145,7 @@ Submitted batch job 36855
 ```
 {: .output}
 
-And that's all we need to do to submit a job. 
-To check on our job's status, we use the command `squeue`.
+
 
 ```
 squeue -u yourUsername
