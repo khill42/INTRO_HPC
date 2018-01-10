@@ -108,7 +108,7 @@ It should never be used for doing actual work.
 
 The real work on a cluster gets done by the "worker" nodes.
 Worker nodes come in many shapes and sizes, but generally are dedicated to doing all of the heavy lifting that needs doing. 
-All interaction with the worker nodes is handled by a specialized piece of software called a scheduler. 
+All interaction with the worker nodes is handled by a specialized piece of software called a scheduler. For Awoonga (the QRIS HPC) you can find that information [HERE](https://www.qriscloud.org.au/support/qriscloud-documentation/92-awoonga-user-guide#technical_overview) or we can find this out directly by viewing the worker nodes.
 We can view all of the worker nodes with the `pbsnodes -a` command.
 
 ```
