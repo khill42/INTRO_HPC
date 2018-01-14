@@ -101,12 +101,50 @@ The best way to check our job's status is with `qtat`.
 
 ## Parameters
 
+Let's discuss the example PBS script.
+```
+test.pbs
+```
+```
+#!/bin/bash
+#PBS -q workq
+#PBS -A qris-gu
+#Give the job a name ... in the past had to start alphabetical and be < 13 chars
+#PBS -N test_script
+#PBS -l walltime=00:03:00
+#PBS -l nodes=1:ppn=1:mem=2g
 
-You can find out more information about these parameters by viewing the manual page of the `qsub` function
+echo 'This script is running on:'
+hostname
+echo 'The date is :'
+date
+sleep 120
+```
+
+Comments in UNIX (denoted by `#`) are typically ignored.
+But there are exceptions.
+For instance the special `#!` comment at the beginning of scripts
+specifies what program should be used to run it (typically `/bin/bash`).
+Schedulers like PBS also have a special comment used to denote special 
+scheduler-specific options.
+Though these comments differ from scheduler to scheduler, 
+PBS's special comment is `#PBS`.
+Anything following the `##PBS` comment is interpreted as an instruction to the scheduler.
+
+In our example, we have set the following parameters
+|Flag|Name|example setting|
+|---|---|---|
+|-q|queue|workq|
+
+Each of these parameters have a default setting they will revert to if not set however this means your script may act differently to what you expect.
+
+You can find out more information about these parameters by viewing the manual page of the `qsub` function. This will also show you what the default settings are.
 
 ```
 man qsub
 ```
+
+
 
 
 ## Queues
