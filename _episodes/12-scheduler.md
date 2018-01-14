@@ -131,10 +131,11 @@ Though these comments differ from scheduler to scheduler,
 PBS's special comment is `#PBS`.
 Anything following the `##PBS` comment is interpreted as an instruction to the scheduler.
 
-In our example, we have set the following parameters
-|Flag|Name|example setting|
-|---|---|---|
-|-q|queue|workq|
+In our example, we have set the following parameters:
+
+| Flag | Name | Example Setting |
+| --- | --- | --- |
+| -q | queue | workq |
 
 Each of these parameters have a default setting they will revert to if not set however this means your script may act differently to what you expect.
 
