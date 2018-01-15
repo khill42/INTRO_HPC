@@ -144,8 +144,50 @@ In our example, we have set the following parameters:
 ### Resource list
 Resource list will contain a number of settings that informs the PBS scheduler what resources to allocate for your job and for how long (walltime).
 
+#### Walltime
 Walltime is represented by `walltime=00:01:01` in the format HH:MM:SS. This will be how long the job will run before timing out.  If your job exceeds this time the scheduler will terminate the job. It is recommended to find a usual runtime for the job and add some more (say 20%) to it. For example, if a job took approximately 10 hours, the walltime limit could be set to 12 hours, e.g. "-l walltime=12:00:00". By setting the walltime the scheduler can perform job scheduling more efficiently and also reduces occasions where errors can leave the job stalled but still taking up resource for the default much longer walltime limit (for queue walltime defaults run "qstat -q" command)
 
+Resource requests are typically binding.
+If you exceed them, your job will be killed.
+Let's use walltime as an example.
+We will request 30 seconds of walltime, 
+and attempt to run a job for two minutes.
+
+```
+#!/bin/bash
+
+#PBS -A qris-gu
+#PBS -l walltime=00:00:30  ## <- altered to 30 seconds
+#PBS -l select=1:ncpus=2:mem=2g
+
+echo 'This script is running on:'
+hostname
+echo 'The date is :'
+date
+sleep 120
+
+```
+
+Submit the job and wait for it to finish. 
+Once it is has finished, check the error log file. In the error file, there will be
+```
+=>> PBS: job killed: walltime 77 exceeded limit 30
+
+```
+
+Our job was killed for exceeding the amount of resources it requested.
+Although this appears harsh, this is actually a feature.
+Strict adherence to resource requests allows the scheduler to find the best possible place
+for your jobs.
+Even more importantly, 
+it ensures that another user cannot use more resources than they've been given.
+If another user messes up and accidentally attempts to use all of the CPUs or memory on a node, 
+PBS will either restrain their job to the requested resources or kill the job outright.
+Other jobs on the node will be unaffected.
+This means that one user cannot mess up the experience of others,
+the only jobs affected by a mistake in scheduling will be their own.
+
+#### Compute Resources and Parameters
 Compute parameters, represented by `select=1:ncpus=2:mem=2g` can be considered individually. The argument `select` specifies the number of nodes (or chunks of resource) required; `ncpus` indicates the number of CPUs per chunk required.
 
 
@@ -205,110 +247,43 @@ PBS sets multiple environment variables at submission time. The following PBS va
 | PBS_JOBNAME|  Name of the job. This can be set using the -N option in the PBS script (or from the command line). The default job name is the name of the PBS script.|
 | PBS_NODEFILE|  Contains a list of the nodes assigned to the job. If multiple CPUs on a node have been assigned, the node will be listed in the file more than once. By default, mpirun assigns jobs to nodes in the order they are listed in this file |
 | PBS_O_HOME|  The value of the HOME variable in the environment in which qsub was executed.|
-| PBS_O_HOST|  The name of the host upon which the qsub command is|
-| running.|
+| PBS_O_HOST|  The name of the host upon which the qsub command is running.|
 | PBS_O_PATH|  Original PBS path. Used with pbsdsh.|
 | PBS_O_QUEUE|  Queue job was submitted to.|
 | PBS_O_WORKDIR|  PBS sets the environment variable PBS_O_WORKDIR to the directory from which the batch job was submitted PBS_QUEUE Queue job is running in (typically this is the same as PBS_O_QUEUE). |
 
-
-## Below this is all SLURM, need to rewrite as PBS
-
-
-
-
-> ## Job environment variables
->
-> When SLURM runs a job, it sets a number of environment variables for the job.
-> One of these will let us check our work from the last problem.
-> The `SLURM_CPUS_PER_TASK` variable is set to the number of CPUs we requested with `-c`.
-> Using the `SLURM_CPUS_PER_TASK` variable, 
-> modify your job so that it prints how many CPUs have been allocated.
-{: .challenge}
-
-Resource requests are typically binding.
-If you exceed them, your job will be killed.
-Let's use walltime as an example.
-We will request 30 seconds of walltime, 
-and attempt to run a job for two minutes.
-
-```
-#!/bin/bash
-#SBATCH -t 0:0:30
-
-echo 'This script is running on:'
-hostname
-sleep 120
-```
-
-Submit the job and wait for it to finish. 
-Once it is has finished, check the log file.
-```
-sbatch example-job.sh
-watch squeue -u yourUsername
-cat slurm-38193.out
-```
-{: .bash}
-```
-This job is running on:
-gra533
-slurmstepd: error: *** JOB 38193 ON gra533 CANCELLED AT 2017-07-02T16:35:48 DUE TO TIME LIMIT ***
-```
-{: .output}
-
-Our job was killed for exceeding the amount of resources it requested.
-Although this appears harsh, this is actually a feature.
-Strict adherence to resource requests allows the scheduler to find the best possible place
-for your jobs.
-Even more importantly, 
-it ensures that another user cannot use more resources than they've been given.
-If another user messes up and accidentally attempts to use all of the CPUs or memory on a node, 
-SLURM will either restrain their job to the requested resources or kill the job outright.
-Other jobs on the node will be unaffected.
-This means that one user cannot mess up the experience of others,
-the only jobs affected by a mistake in scheduling will be their own.
-
 ## Canceling a job
 
+
 Sometimes we'll make a mistake and need to cancel a job.
-This can be done with the `scancel` command.
+This can be done with the `qdel` command.
 Let's submit a job and then cancel it using its job number.
 
 ```
-sbatch example-job.sh
-squeue -u yourUsername
-```
-{: .bash}
-```
-Submitted batch job 38759
+> qsub test2.pbs
+27790.awongmgmr1
 
-   JOBID     USER ACCOUNT           NAME  ST REASON    START_TIME                TIME  TIME_LEFT NODES CPUS
-   38759 yourUsername yourAccount example-job.sh  PD Priority  N/A                       0:00       1:00     1    1
+> qstat
+Job id            Name             User              Time Use S Queue
+----------------  ---------------- ----------------  -------- - -----
+27790.awongmgmr1  test2.pbs        amandamiotto      00:00:00 R Short           
+
 ```
-{: .output}
 
 Now cancel the job with it's job number. 
 Absence of any job info indicates that the job has been successfully canceled.
 
 ```
-scancel 38759
-squeue -u yourUsername
+> qdel 27790
+> qstat
+>
 ```
-{: .bash}
-```
-   JOBID     USER ACCOUNT           NAME  ST REASON    START_TIME                TIME  TIME_LEFT NODES CPUS
-```
-{: .output}
 
-> ## Cancelling multiple jobs
->
-> We can also all of our jobs at once using the `-u` option. 
-> This will delete all jobs for a specific user (in this case us).
-> Note that you can only delete your own jobs.
->
-> Try submitting multiple jobs and then cancelling them all with 
-> `scancel -u yourUsername`.
-{: .challenge}
+
+
+## Below this is all SLURM, need to rewrite as PBS
+
+
 
 ## Other types of jobs
 
