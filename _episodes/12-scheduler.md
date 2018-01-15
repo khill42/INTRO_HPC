@@ -132,10 +132,19 @@ PBS's special comment is `#PBS`.
 Anything following the `##PBS` comment is interpreted as an instruction to the scheduler.
 
 In our example, we have set the following parameters:
+ 
+| Flag | Name | Example Setting | Notes|
+| --- | --- | --- | --- |
+| -q | queue | workq | See next section for queue info |
+| -A | account |qris-gu| Discuss with your admins or university re account |
+| -N | jobname| test_script | Name of your script (no spaces, alphanumeric only) |
+| -l | resource list| multiple settings| See next segment|
 
-| Flag | Name | Example Setting |
-| --- | --- | --- |
-| -q | queue | workq |
+Resource list will contain a number of settings that informs the PBS scheduler what resources to allocate for your job and for how long (walltime).
+
+Walltime is represented by `walltime=00:01:01` in the format HH:MM:SS. This will be how long the job will run before timing out. 
+
+
 
 Each of these parameters have a default setting they will revert to if not set however this means your script may act differently to what you expect.
 
