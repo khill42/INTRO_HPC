@@ -142,8 +142,17 @@ In our example, we have set the following parameters:
 
 Resource list will contain a number of settings that informs the PBS scheduler what resources to allocate for your job and for how long (walltime).
 
-Walltime is represented by `walltime=00:01:01` in the format HH:MM:SS. This will be how long the job will run before timing out. 
-Compute parameters, represented by `nodes=1:ppn=1:mem=2g` can be viewed individually. Nodes are 
+Walltime is represented by `walltime=00:01:01` in the format HH:MM:SS. This will be how long the job will run before timing out.  If your job exceeds this time the scheduler will terminate the job. It is recommended to find a usual runtime for the job and add some more (say 20%) to it. For example, if a job took approximately 10 hours, the walltime limit could be set to 12 hours, e.g. "-l walltime=12:00:00". By setting the walltime the scheduler can perform job scheduling more efficiently and also reduces occasions where errors can leave the job stalled but still taking up resource for the default much longer walltime limit (for queue walltime defaults run "qstat -q" command)
+
+Compute parameters, represented by `select=1:ncpus=2:mem=2g` can be considered individually. The argument `select` specifies the number of nodes (or chunks of resource) required; `ncpus` indicates the number of CPUs per chunk required.
+
+
+| select |  ncpus |  Description|
+|---|---|---|
+| 2|  16|  32 Processor job, using 2 nodes and 16 processors per node| 
+| 4|  8|  32 Processor job, using 4 nodes and 8 processors per node| 
+| 16|  1|  16 Processor job, using 16 nodes and 1 processor per node| 
+| 8 | 16 | 128 Processor job, using 8 nodes and 16 processors per node|
 
 
 
