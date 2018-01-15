@@ -192,6 +192,25 @@ DeadEnd              0     0 yes  no     0     0     0     0     0     0 Exec
 {: .challenge}
 
 
+## Job environment variables
+
+PBS sets multiple environment variables at submission time. The following PBS variables are commonly used in command files: 
+
+
+| Variable Name |  Description |
+|---|---|
+| PBS_ARRAYID|  Array ID numbers for jobs submitted with the -t flag. For example a job submitted with #PBS -t 1-8 will run eight identical copies of the shell script. The value of the PBS_ARRAYID will be an integer between 1 and 8.|
+| PBS_ENVIRONMENT|  Set to PBS_BATCH to indicate that the job is a batch job; otherwise, set to PBS_INTERACTIVE to indicate that the job is a PBS interactive job.|
+| PBS_JOBID|  Full jobid assigned to this job. Often used to uniquely name output files for this job, for example: mpirun - np 16 ./a.out >output.${PBS_JOBID}|
+| PBS_JOBNAME|  Name of the job. This can be set using the -N option in the PBS script (or from the command line). The default job name is the name of the PBS script.|
+| PBS_NODEFILE|  Contains a list of the nodes assigned to the job. If multiple CPUs on a node have been assigned, the node will be listed in the file more than once. By default, mpirun assigns jobs to nodes in the order they are listed in this file |
+| PBS_O_HOME|  The value of the HOME variable in the environment in which qsub was executed.|
+| PBS_O_HOST|  The name of the host upon which the qsub command is|
+| running.|
+| PBS_O_PATH|  Original PBS path. Used with pbsdsh.|
+| PBS_O_QUEUE|  Queue job was submitted to.|
+| PBS_O_WORKDIR|  PBS sets the environment variable PBS_O_WORKDIR to the directory from which the batch job was submitted PBS_QUEUE Queue job is running in (typically this is the same as PBS_O_QUEUE). |
+
 
 ## Below this is all SLURM, need to rewrite as PBS
 
