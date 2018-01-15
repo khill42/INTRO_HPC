@@ -42,7 +42,7 @@ test.pbs
 #Give the job a name ... in the past had to start alphabetical and be < 13 chars
 #PBS -N test_script
 #PBS -l walltime=00:03:00
-#PBS -l nodes=1:ppn=1:mem=2g
+#PBS -l select=1:ncpus=2:mem=2g
 
 echo 'This script is running on:'
 hostname
@@ -112,7 +112,7 @@ test.pbs
 #Give the job a name ... in the past had to start alphabetical and be < 13 chars
 #PBS -N test_script
 #PBS -l walltime=00:03:00
-#PBS -l nodes=1:ppn=1:mem=2g
+#PBS -l select=1:ncpus=2:mem=2g
 
 echo 'This script is running on:'
 hostname
@@ -143,6 +143,7 @@ In our example, we have set the following parameters:
 Resource list will contain a number of settings that informs the PBS scheduler what resources to allocate for your job and for how long (walltime).
 
 Walltime is represented by `walltime=00:01:01` in the format HH:MM:SS. This will be how long the job will run before timing out. 
+Compute parameters, represented by `nodes=1:ppn=1:mem=2g` can be viewed individually. Nodes are 
 
 
 
