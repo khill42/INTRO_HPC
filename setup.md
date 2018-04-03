@@ -6,7 +6,11 @@ permalink: /setup/
 
 ## HPC Access
 
-You will need to have an HPC user account before the workshop begins.  JCU staff and students can apply for an account online [HERE](https://plone.jcu.edu.au/hpc/getting-an-account.html). 
+You will need to have an HPC user account before the workshop begins.  
+
+For those looking to use the QRISCloud HPC Awoonga, you [can sign up here](https://rcc.uq.edu.au/awoonga). Please ensure you have registered for your account **ATLEAST 3 DAYS PRIOR** to the commencement of the workshop.
+
+JCU staff and students can apply for an account online [HERE](https://plone.jcu.edu.au/hpc/getting-an-account.html). 
 Please ensure you have registered for your account **ATLEAST 3 DAYS PRIOR** to the commencement of the workshop.
 
 ## Example Files
